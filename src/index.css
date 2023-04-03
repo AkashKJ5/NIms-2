@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: "Roboto", helvetica, arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F2F2F2;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", helvetica, arial, sans-serif;
+}
+
+.p-scrollpanel-content {
+  padding: 16px !important;
+  width: 100% !important;
+}

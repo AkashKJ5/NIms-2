@@ -1,0 +1,64 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .card {
+    float: none;
+    margin: 0 auto;
+  }
+}
+
+/* modifying css of card items */
+.p-card .p-card-body {
+  padding: 0.25rem !important;
+}
+
+#target {
+  max-width: 100%;
+}
+
+/* CSS FOR FILTER OPTION LABEL */
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+  padding-top: 10px !important;
+}
+
+.MuiAlert-standard {
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  z-index: 6;
+}
+
+.customStepper {
+  position: fixed;
+  top: 45%;
+  left: 0;
+  width: 100%;
+  background: transparent !important;
+}
+
+.customStepper button {
+  min-width: auto;
+  border-radius: 50%;
+  padding: 10px;
+  background-color: #d8d9db;
+  opacity: 0.4;
+}
+
+@media only screen and (min-width: 600px) {
+  .customStepper {
+    position: static;
+  }
+}

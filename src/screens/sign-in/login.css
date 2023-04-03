@@ -1,0 +1,24 @@
+/* .login {
+    background: url('/public/background.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+} */
+
+.authContainer {
+    background: linear-gradient(91.2deg, #A68ED2 50.54%, #EFBBE8 100%);
+}
+
+.login {
+    background-color: #FFFFFF;
+    border-radius: 6px;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.15);
+    margin: 0 10px;
+    background-image: url('/public/background.svg');
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+.loginBg {
+    margin-top: 20px;
+}
