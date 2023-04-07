@@ -1,21 +1,32 @@
 import { addRxPlugin, createRxDatabase } from "rxdb";
-
+import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode";
+import { wrappedKeyEncryptionCryptoJsStorage } from "rxdb/plugins/encryption-crypto-js";
 import { RxDBJsonDumpPlugin } from "rxdb/plugins/json-dump";
+import { wrappedKeyCompressionStorage } from "rxdb/plugins/key-compression";
 import { RxDBMigrationPlugin } from "rxdb/plugins/migration";
 import { RxDBQueryBuilderPlugin } from "rxdb/plugins/query-builder";
-import { RxDBReplicationGraphQLPlugin } from "rxdb/plugins/replication-graphql";
+import { getRxStorageDexie } from "rxdb/plugins/storage-dexie";
 import { RxDBUpdatePlugin } from "rxdb/plugins/update";
+
 import { collections } from "../schemas";
-import { getRxStorageDexie } from "rxdb/plugins/dexie";
-import { wrappedKeyCompressionStorage } from "rxdb/plugins/key-compression";
-import { wrappedKeyEncryptionStorage } from "rxdb/plugins/encryption";
+
+
+const prepareRxDB = () => {
+  if (process.env.DEBUG) {
+    addRxPlugin(RxDBDevModePlugin);
+  }
+  addRxPlugin(RxDBJsonDumpPlugin);
+  addRxPlugin(RxDBMigrationPlugin);
+  addRxPlugin(RxDBQueryBuilderPlugin);
+  addRxPlugin(RxDBUpdatePlugin);
+};
 
 const getStorage = () => {
   const storageDexie = getRxStorageDexie();
   const storageCompressed = wrappedKeyCompressionStorage({
     storage: storageDexie,
   });
-  const storageEncrypted = wrappedKeyEncryptionStorage({
+  const storageEncrypted = wrappedKeyEncryptionCryptoJsStorage({
     storage: storageCompressed,
   });
 
@@ -37,7 +48,7 @@ const getStorage = () => {
  *    setError(null);
  *    setDatabase(null);
  *
- *    const [err, db] = await initializeDb();
+ *    const { err, db } = await initializeDb();
  *
  *    setDatabase(db);
  *    setError(err);
@@ -45,11 +56,7 @@ const getStorage = () => {
  */
 const initializeDb = async () => {
   try {
-    addRxPlugin(RxDBJsonDumpPlugin);
-    addRxPlugin(RxDBMigrationPlugin);
-    addRxPlugin(RxDBQueryBuilderPlugin);
-    addRxPlugin(RxDBUpdatePlugin);
-    addRxPlugin(RxDBReplicationGraphQLPlugin);
+    prepareRxDB();
 
     const db = await createRxDatabase({
       name: "nemmadi-mobile",
@@ -65,14 +72,14 @@ const initializeDb = async () => {
     } catch (err) {
       console.error("Error while adding collections");
       console.error(err);
-      return [err, null];
+      return { err };
     }
 
-    return [null, db];
+    return { db };
   } catch (err) {
     console.error("Error while connecting to database");
     console.error(err);
-    return [err, null];
+    return { err };
   }
 };
 

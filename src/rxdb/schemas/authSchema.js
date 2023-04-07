@@ -12,6 +12,7 @@ const schema = {
   properties: {
     id: {
       type: "string",
+      maxLength: 36,
       final: true,
     },
 

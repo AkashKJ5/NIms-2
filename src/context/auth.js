@@ -85,6 +85,8 @@ export const AuthProvider = ({ children }) => {
    */
   React.useEffect(() => {
     // start synchronization when there is login data
+    if (!auth || !database) return;
+
     const repl = startSynchronization(database);
     setReplications(repl);
 
@@ -100,12 +102,12 @@ export const AuthProvider = ({ children }) => {
    */
   React.useEffect(() => {
     // stop synchronization when there is no login data
-    if (replications.length > 0) {
+    if (!auth && replications.length > 0) {
       console.log('inside stop');
       stopSynchronization(replications);
       setReplications([]);
     }
-  }, [replications]);
+  }, [replications, auth]);
 
   return (
     <AuthContext.Provider value={{ auth, tabAuth, ...authContext }}>

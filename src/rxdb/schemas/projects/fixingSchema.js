@@ -12,9 +12,13 @@ const schema = {
   properties: {
     fixingUuid: {
       type: "string",
+      maxLength: 36,
+      final: true,
     },
     id: {
       type: "string",
+      maxLength: 36,
+      final: true,
     },
     isActive: {
       type: "boolean",

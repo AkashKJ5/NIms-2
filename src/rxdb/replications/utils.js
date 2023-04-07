@@ -1,7 +1,7 @@
+import { replicateGraphQL } from 'rxdb/plugins/replication-graphql';
+
 // import { permissions } from '../../utils/auth';
-
 import { REPLICATION_INTERVAL, REPLICATION_SIZE } from "../../utils/constants";
-
 import { GRAPHQL_ENDPOINT } from "../../utils/environment";
 import { collections } from "../collections";
 
@@ -13,9 +13,10 @@ export const buildReplication = (
 ) => {
   let pull;
   let push;
-  const auth = localStorage.getItem("login")
-    ? JSON.parse(localStorage.getItem("login"))
-    : "";
+
+  const login = localStorage.getItem("login");
+  const auth = login ? JSON.parse(login) : {};
+
   if (pullOptions) {
     const { pullBuilder, pullQuery } = pullOptions;
 
@@ -73,7 +74,8 @@ export const buildReplication = (
   const collection = collections[module](db);
 
   return [
-    collection.syncGraphQL({
+    replicateGraphQL({
+      collection,
       url: { http: GRAPHQL_ENDPOINT },
       headers: { Authorization: `JWT ${auth.token}` },
       pull,
