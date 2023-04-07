@@ -13,11 +13,15 @@ const schema = {
     // PK for mobile RXdb
     snaggingUuid: {
       type: "string",
+      maxLength: 36,
+      final: true,
     },
 
     // PK for backend
     id: {
       type: "string",
+      maxLength: 36,
+      final: true,
     },
     isActive: {
       type: "boolean",
