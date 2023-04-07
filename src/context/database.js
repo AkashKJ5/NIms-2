@@ -1,4 +1,5 @@
 import React from 'react'
+
 import initializeDb from '../rxdb/database/initialize-db'
 
 /**
@@ -23,13 +24,14 @@ export const useDatabase = () => React.useContext(DatabaseContext)
  */
 export const DbProvider = ({ children }) => {
   const [database, setDatabase] = React.useState()
+  const [error, setError] = React.useState()
 
   // database connection
   const initDB = async () => {
     setDatabase(null)
 
-    const [err, db] = await initializeDb()
-    console.log('database error: ', err)
+    const {err, db} = await initializeDb()
+    if (err) console.log('database error: ', err)
     setDatabase(db)
   }
 
@@ -40,6 +42,14 @@ export const DbProvider = ({ children }) => {
     }
   }, [])
 
+  if (error) {
+    return (
+      <span data-testid='app-db-failed'>
+        Could not initialize database
+      </span>
+    )
+  }
+
   if (database) {
     return (
       <DatabaseContext.Provider value={database} testID='app-db-loaded'>
@@ -47,4 +57,10 @@ export const DbProvider = ({ children }) => {
       </DatabaseContext.Provider>
     )
   }
+
+  return (
+    <>
+      Loading...
+    </>
+  )
 }
